@@ -1,4 +1,4 @@
- // SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
 // contract which is holding address for all the campaigns
@@ -8,10 +8,9 @@ contract CampaignFactory {
     //to create a new Campaign
     //@params minimum value, documents hash
     function createCampaign(
-        uint _minimum, 
-        string memory _documents) 
+        uint _minimum) 
     public {
-        address newCampaign = address(new Campaign(_minimum, _documents, msg.sender));
+        address newCampaign = address(new Campaign(_minimum, msg.sender));
         deployedCampaigns.push(newCampaign);
     }
     
@@ -45,7 +44,6 @@ contract Campaign {
     uint256 public minimumContribution;
     mapping(address => bool) public approvers;
     uint256 public approversCount;
-    string public documents;
 
     // Modifier user to check if manager is equal to the function caller
     modifier restricted() {
@@ -55,9 +53,8 @@ contract Campaign {
 
     // constructor function
     // @params minimum = minimum amount in campaign to become approver
-    constructor(uint256 minimum, string memory _documents, address _creator) public {
+    constructor(uint256 minimum, address _creator) public {
         manager = _creator;
-        documents = _documents;
         minimumContribution = minimum;
     }
 
